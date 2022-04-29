@@ -4,9 +4,9 @@ import csv
 import pandas as pd
 
 # Variables
-nessusBaseURL="https://10.255.140.111:8834"
-nessusUsername="tech-support"
-nessusPassword="y&4DEwDe9hQNSvUX"
+nessusBaseURL="https://xxxxxxxxx"
+nessusUsername="xxxxxxxxx"
+nessusPassword="xxxxxxxxx"
 upToThisManyDaysAgo=5
 folderID = 3
 sleepPeriod = 5
