@@ -4,10 +4,10 @@ import csv
 import pandas as pd
 
 # Variables
-nessusBaseURL="https://xxxxxxxxx"
-nessusUsername="xxxxxxxxx"
-nessusPassword="xxxxxxxxx"
-upToThisManyDaysAgo=5
+nessusBaseURL="https://x.x.x.x"
+nessusUsername="xxxxxxxxxxx"
+nessusPassword="xxxxxxxxxxx"
+upToThisManyDaysAgo=15
 folderID = 3
 sleepPeriod = 5
 
@@ -36,6 +36,9 @@ for line in data['scans']:
     if line['status'] == 'completed':
         scanIDs.append([line['id'],line['name']])
 
+f = open('newfilecritical.csv', "w")
+writer = csv.writer(f, delimiter = ' ')
+
 # Main loop for the program
 for listID in scanIDs:
     ID = listID[0]
@@ -47,18 +50,18 @@ for listID in scanIDs:
     # In this case, we're asking for a:
     #   - CSV export
     #   - Only requesting certain fields
-    #   - Severity = 4 (aka Critical) only
+    #   - Severity = 3 (aka High) only
     payload = {
         "format": "csv",
         "reportContents": {
             "csvColumns": {
-                "id": True,
-                "cve": True,
+                "id": False,
+                "cve": False,
                 "cvss": True,
                 "risk": True,
                 "hostname": True,
-                "protocol": True,
-                "port": True,
+                "protocol": False,
+                "port": False,
                 "plugin_name": False,
                 "synopsis": False,
                 "description": False,
@@ -108,18 +111,15 @@ for listID in scanIDs:
     dataBack = d.text
 
 
-    f = open('newfile.csv', "w")
-    writer = csv.writer(f, delimiter = ' ')
-
-
 
     # Clean up the CSV data
-    csvData = dataBack.split('\r\n',-1)
+    csvData = dataBack.split('\r\n')
     NAMECLEAN=NAME.replace('/','-',-1)
     print("-----------------------------------------------")
     print("Starting  "+NAMECLEAN)
     for line in csvData:
-        writer.writerow(line.replace('"',''))
+        writer.writerow(line.replace('"','').replace(' ', ''))
     print("Completed "+NAMECLEAN)
 
+f.close()
 
