@@ -36,6 +36,7 @@ for line in data['scans']:
     if line['status'] == 'completed':
         scanIDs.append([line['id'],line['name']])
 
+# Write to CSV file
 f = open('newfilecritical.csv', "w")
 writer = csv.writer(f, delimiter = ' ')
 
@@ -109,8 +110,6 @@ for listID in scanIDs:
     URL = nessusBaseURL+"/scans/"+str(ID)+"/export/"+scanFile+"/download"
     d = requests.get(url = URL, headers=headers, verify = False)
     dataBack = d.text
-
-
 
     # Clean up the CSV data
     csvData = dataBack.split('\r\n')
